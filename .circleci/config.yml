@@ -1,8 +1,7 @@
 version: 2.1
 
 workflows:
-  version: 2
-  build:
+  my_workflow:
     jobs:
       - build
       - test
