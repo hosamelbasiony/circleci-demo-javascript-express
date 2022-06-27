@@ -16,7 +16,7 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - print_pipeline_id
-      - run: exit 1
+      # - run: exit 1
       - run:
           name: on error
           command: echo "Hello Error!"
