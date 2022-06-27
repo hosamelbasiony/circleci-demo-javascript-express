@@ -5,12 +5,10 @@ workflows:
   build:
     jobs:
       - build
-
 commands:
   print_pipeline_id:
     steps:
-      - run: echo ${CIRCLE_WORKFLOW_ID}
-      
+      - run: echo ${CIRCLE_WORKFLOW_ID}      
 jobs:
   my_job:
     docker:
