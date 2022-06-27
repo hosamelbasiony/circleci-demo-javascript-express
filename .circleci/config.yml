@@ -41,6 +41,7 @@ jobs:
       - restore_cache:
           keys:
             - "npm packages"
+      - run: npm install
       - run: npm run lint
 
   analyze:
