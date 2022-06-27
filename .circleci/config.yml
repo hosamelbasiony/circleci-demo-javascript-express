@@ -5,6 +5,7 @@ workflows:
   build:
     jobs:
       - build
+      - my_job
 commands:
   print_pipeline_id:
     steps:
@@ -49,9 +50,3 @@ jobs:
           prefix: coverage
       - store_test_results:
           path: test-results.xml
-          
-workflows:
-  my_workflow:
-    jobs:
-      - my_job
-      - build
