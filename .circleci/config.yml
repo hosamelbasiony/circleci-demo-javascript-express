@@ -10,7 +10,6 @@ workflows:
       - lint:
           requires:
             - test
-      # - analyze
 jobs:
   build:
     docker:
@@ -32,6 +31,7 @@ jobs:
       - restore_cache:
           keys:
             - "npm packages"
+      - run: npm install
       - run: npm run test
   lint:
     docker:
