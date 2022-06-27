@@ -4,13 +4,11 @@ workflows:
   my_workflow:
     jobs:
       - build
-      - test:
-          requires
-            - build
-      - lint:
-          requires
-            - test
+      - test
+      - lint
       # - analyze
+          # requires
+          #   - test
 jobs:
   build:
     docker:
