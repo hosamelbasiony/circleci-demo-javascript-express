@@ -9,7 +9,7 @@ workflows:
             - build
       - lint:
           requires
-            - build
+            - test
       # - analyze
 jobs:
   build:
