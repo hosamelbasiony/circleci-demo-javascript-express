@@ -5,65 +5,43 @@ workflows:
   build:
     jobs:
       - build
-      - my_job
+      - test
+      - analyze
 commands:
   print_pipeline_id:
     steps:
-      - run: echo ${CIRCLE_WORKFLOW_ID}      
+      - run: echo ${CIRCLE_WORKFLOW_ID}
 jobs:
-  my_job:
+  build:
     docker:
       - image: circleci/node:13.8.0
     steps:
+      - checkout
       - print_pipeline_id
-      # - run: exit 1
-      - run:
-          name: on error
-          command: echo "Hello Error!"
-          when: on_fail
-      
-  build:
-    working_directory: ~/mern-starter
+      - run: npm install
+      - save_cache:
+          key: "npm packages"
+          path:
+            - /src/node_modules
+      - run: npm run lint
+
+  test:
     docker:
-      - image: circleci/node:10.16.3
-      - image: mongo:4.2.0
+      - image: circleci/node:13.8.0
     steps:
       - checkout
-      - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@5'
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-      - run:
-          name: install-npm-wee
-          command: npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-          paths:
-            - ./node_modules
-      - run:
-          name: test
-          command: npm test
-      - run:
-          name: code-coverage
-          command: './node_modules/.bin/nyc report --reporter=text-lcov'
-      # - run:
-      #     name: To Fail => Testing application
-      #     command: make test
-      #     shell: /bin/bash
-      #     working_directory: ~/my-app
-      #     no_output_timeout: 30m
-      #     environment:
-      #       FOO: bar
-      - run:
-          name: Failed Tests
-          command: curl --data fail_tests.log http://example.com/error_logs
-          when: on_fail
-      - store_artifacts:
-          path: test-results.xml
-          prefix: tests
-      - store_artifacts:
-          path: coverage
-          prefix: coverage
-      - store_test_results:
-          path: test-results.xml
+          keys:
+            - "npm packages"
+      - run: npm install
+      - run: npm run test
+
+  analyze:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - "npm packages"
+      - run: npm audit
