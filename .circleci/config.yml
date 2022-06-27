@@ -42,14 +42,14 @@ jobs:
       - run:
           name: code-coverage
           command: './node_modules/.bin/nyc report --reporter=text-lcov'
-      - run:
-          name: To Fail => Testing application
-          command: make test
-          shell: /bin/bash
-          working_directory: ~/my-app
-          no_output_timeout: 30m
-          environment:
-            FOO: bar
+#       - run:
+#           name: To Fail => Testing application
+#           command: make test
+#           shell: /bin/bash
+#           working_directory: ~/my-app
+#           no_output_timeout: 30m
+#           environment:
+#             FOO: bar
       - run:
           name: Failed Tests
           command: curl --data fail_tests.log http://example.com/error_logs
