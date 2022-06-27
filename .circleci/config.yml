@@ -7,26 +7,20 @@ workflows:
       - build
       - my_job
 commands:
-  # - print_pipeline_id:
-  #   steps:
-  #     - run: echo ${CIRCLE_WORKFLOW_ID}     
-  intentionally_fail:
-    docker:
-      - image: circleci/node:13.8.0
+  print_pipeline_id:
     steps:
-      - run: exit 1
-      - run:
-          name: on error
-          command: echo "Hello Error!"
-          when: on_fail
-
+      - run: echo ${CIRCLE_WORKFLOW_ID}      
 jobs:
   my_job:
     docker:
       - image: circleci/node:13.8.0
     steps:
-      # - print_pipeline_id
-      - intentionally_fail
+      - print_pipeline_id
+      - run: exit 1
+      - run:
+          name: on error
+          command: echo "Hello Error!"
+          when: on_fail
       
   build:
     working_directory: ~/mern-starter
