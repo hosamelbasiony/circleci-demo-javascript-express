@@ -7,22 +7,16 @@ workflows:
       - build
       - test
       - analyze
-
-commands:
-  print_pipeline_id:
-    steps:
-      - run: echo ${CIRCLE_WORKFLOW_ID}
 jobs:
   build:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - print_pipeline_id
       - run: npm install
       - save_cache:
           key: "npm packages"
-          path:
+          paths:
             - /src/node_modules
       - run: npm run lint
 
