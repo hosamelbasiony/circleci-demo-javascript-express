@@ -7,10 +7,10 @@ workflows:
       - build
       - my_job
 commands:
-  print_pipeline_id:
+  - print_pipeline_id:
     steps:
       - run: echo ${CIRCLE_WORKFLOW_ID}     
-  intentionally_fail:
+  - intentionally_fail:
     docker:
       - image: circleci/node:13.8.0
     steps:
